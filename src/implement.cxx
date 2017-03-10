@@ -289,8 +289,8 @@ int main()
 		int m,n;
         int i = iStart;
         int j = jStart;
-        squares[i][j] = -3;
-        int temp = 0;
+        squares[i][j] = 0;
+        int temp = 1;
         for(m = 0; m < path.length(); m++) {
             c = path.at(m);
             n = atoi(&c); 
@@ -300,7 +300,7 @@ int main()
             squares[i][j] = temp;
             temp++;
         }
-        squares[i][j] = -4;
+        squares[i][j] = path.length();
     
         // display the squares with the path
         for(i = 0; i < IDIM; i++) {
@@ -308,13 +308,14 @@ int main()
                 if(squares[i][j] == -2)
                     cout << ".";
                 else if(squares[i][j] == -1)
-                    cout << "O"; //obstacle
-                else if(squares[i][j] == -3)
-                    cout << "I"; //Initial
+                    cout << "#"; //obstacle
+                // else if(squares[i][j] == -3)
+                //     cout << "I"; //Initial
                 else if(squares[i][j] >= 0)
                     cout << squares[i][j]; //path
-                else if(squares[i][j] == -4)
-                    cout << "F"; //final
+                
+                // else if(squares[i][j] == -4)
+                //     cout << "F"; //final
 	    }
             cout << endl;
         }
