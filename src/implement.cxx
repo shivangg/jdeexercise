@@ -4,6 +4,7 @@
 #include <ctime>
 #include <string>
 #include "stdlib.h"
+#include "stdio.h"
 #include <queue>
 
 using namespace std;
@@ -244,7 +245,48 @@ string pathFind( const Location &locStart ,const Location &locFinish )
 }
 
 int main()
-{
+{	
+	char name[8][6];
+	FILE* file;
+
+	file = fopen ("myfile.txt","r");
+	//get input from file
+	for (int i = 0; i < IDIM; ++i)
+	{
+		for(int j =0; j< JDIM; j++)
+		{
+			char ch = getc(file);
+			while(ch == '\n')
+			{
+				ch = getc(file);
+			}
+			name[i][j] = ch;
+		}
+	}
+
+
+
+	 // create empty squares
+    for(int i = 0; i < IDIM; i++) 
+    	for(int j = 0; j < JDIM; j++) {
+        	squares[i][j] = -2;
+    }
+
+
+	//make the wall
+	for (int i = 0; i < IDIM; ++i)
+	{
+		for(int j =0; j< JDIM; j++)
+		{
+			if (name[i][j] == '#')
+			{
+				squares[i][j] = -1;
+				cout << i << " " << j;
+			}
+			cout << name[i][j];
+		}
+		cout << endl;
+	}
 
 	// -1 for obstacle
 	// -2 for the empty cells
@@ -252,18 +294,18 @@ int main()
 	// -4 for the final cell
 	// -5 for the Path cells
 
-    // create empty squares
-    for(int j = 0; j < JDIM; j++) {
-        for(int i = 0; i < IDIM; i++) squares[i][j] = -2;
-    }
+   
 
     // make wall
-	squares[2][4] = -1;
-	squares[3][4] = -1;
-	squares[4][1] = -1;
-    squares[4][2] = -1;
-    squares[4][3] = -1;
-    squares[4][4] = -1;
+
+
+
+	// squares[2][4] = -1;
+	// squares[3][4] = -1;
+	// squares[4][1] = -1;
+	// squares[4][2] = -1;
+	// squares[4][3] = -1;
+	// squares[4][4] = -1;
 
     // starting and ending positions
     int iStart = 2,jStart = 3;
@@ -309,13 +351,8 @@ int main()
                     cout << ".";
                 else if(squares[i][j] == -1)
                     cout << "#"; //obstacle
-                // else if(squares[i][j] == -3)
-                //     cout << "I"; //Initial
                 else if(squares[i][j] >= 0)
                     cout << squares[i][j]; //path
-                
-                // else if(squares[i][j] == -4)
-                //     cout << "F"; //final
 	    }
             cout << endl;
         }
