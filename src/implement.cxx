@@ -142,7 +142,7 @@ string pathFind( const Location &locStart ,const Location &locFinish )
 
         row = (pNode1->getLocation()).row; 
 	col = pNode1->getLocation().col;
-	cout << "row, col=" << row << "," << col << endl;
+	// cout << "row, col=" << row << "," << col << endl;
 
 	// remove the node from the open list
         q[qi].pop(); 
@@ -157,7 +157,7 @@ string pathFind( const Location &locStart ,const Location &locFinish )
 		cout << endl;
 		for(j = JDIM - 1; j >= 0; j--) {
 			for(i = 0; i < IDIM; i++) {
-				cout << dirMap[i][j];
+				// cout << dirMap[i][j];
 			}
 			cout << endl;
 		}
@@ -188,7 +188,7 @@ string pathFind( const Location &locStart ,const Location &locFinish )
 
 	    // if not wall (obstacle) nor in the closed list
             if(!(iNext < 0 || iNext > IDIM - 1 || jNext < 0 || jNext > JDIM - 1 || 
-			squares[iNext][jNext] == 1 || closedNodes[iNext][jNext] == 1)) {
+			squares[iNext][jNext] == -1 || closedNodes[iNext][jNext] == 1)) {
                
 		// generate a child node
                 pNode2 = new Node( Location(iNext, jNext), pNode1->getGValue(), pNode1->getFValue());
@@ -245,17 +245,25 @@ string pathFind( const Location &locStart ,const Location &locFinish )
 
 int main()
 {
+
+	// -1 for obstacle
+	// -2 for the empty cells
+	// -3 for the initial cell
+	// -4 for the final cell
+	// -5 for the Path cells
+
     // create empty squares
     for(int j = 0; j < JDIM; j++) {
-        for(int i = 0; i < IDIM; i++) squares[i][j] = 0;
+        for(int i = 0; i < IDIM; i++) squares[i][j] = -2;
     }
 
     // make wall
-	squares[3][4] = 1;
-	squares[4][1] = 1;
-    squares[4][2] = 1;
-    squares[4][3] = 1;
-    squares[4][4] = 1;
+	squares[2][4] = -1;
+	squares[3][4] = -1;
+	squares[4][1] = -1;
+    squares[4][2] = -1;
+    squares[4][3] = -1;
+    squares[4][4] = -1;
 
     // starting and ending positions
     int iStart = 2,jStart = 3;
@@ -281,28 +289,31 @@ int main()
 		int m,n;
         int i = iStart;
         int j = jStart;
-        squares[i][j] = 2;
+        squares[i][j] = -3;
+        int temp = 0;
         for(m = 0; m < path.length(); m++) {
             c = path.at(m);
             n = atoi(&c); 
             i = i + iDir[n];
             j = j + jDir[n];
-            squares[i][j] = 3;
+            // squares[i][j] = 3;
+            squares[i][j] = temp;
+            temp++;
         }
-        squares[i][j] = 4;
+        squares[i][j] = -4;
     
         // display the squares with the path
         for(i = 0; i < IDIM; i++) {
         	for(j = 0; j <  JDIM; j++) {
-                if(squares[i][j] == 0)
+                if(squares[i][j] == -2)
                     cout << ".";
-                else if(squares[i][j] == 1)
+                else if(squares[i][j] == -1)
                     cout << "O"; //obstacle
-                else if(squares[i][j] == 2)
+                else if(squares[i][j] == -3)
                     cout << "I"; //Initial
-                else if(squares[i][j] == 3)
-                    cout << "P"; //path
-                else if(squares[i][j] == 4)
+                else if(squares[i][j] >= 0)
+                    cout << squares[i][j]; //path
+                else if(squares[i][j] == -4)
                     cout << "F"; //final
 	    }
             cout << endl;
