@@ -249,6 +249,10 @@ int main()
 	char name[8][6];
 	FILE* file;
 
+    // starting and ending positions
+    int iStart,jStart ;
+	int iEnd,jEnd ;
+
 	file = fopen ("myfile.txt","r");
 	//get input from file
 	for (int i = 0; i < IDIM; ++i)
@@ -281,7 +285,21 @@ int main()
 			if (name[i][j] == '#')
 			{
 				squares[i][j] = -1;
-				cout << i << " " << j;
+				// cout << i << " " << j;
+			}
+			if (name[i][j] == 'I')
+			{
+				squares[i][j] = -3;
+				iStart = i;
+				jStart = j;
+				// cout << i << " " << j;
+			}
+			if (name[i][j] == 'F')
+			{
+				squares[i][j] = -4;
+				iEnd = i;
+				jEnd = j;
+				// cout << i << " " << j;
 			}
 			cout << name[i][j];
 		}
@@ -298,18 +316,6 @@ int main()
 
     // make wall
 
-
-
-	// squares[2][4] = -1;
-	// squares[3][4] = -1;
-	// squares[4][1] = -1;
-	// squares[4][2] = -1;
-	// squares[4][3] = -1;
-	// squares[4][4] = -1;
-
-    // starting and ending positions
-    int iStart = 2,jStart = 3;
-	int iEnd = 6,jEnd = 3;    
 
     cout << "Grid Size (IDIM,JDIM): "<< IDIM<< "," << JDIM << endl;
     cout << "Start: " << iStart<<","<< jStart << endl;
